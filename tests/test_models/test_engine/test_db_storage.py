@@ -41,7 +41,7 @@ class TestDBStorageDocs(unittest.TestCase):
         """Test tests/test_models/test_db_storage.py conforms to PEP8."""
         pep8s = pep8.StyleGuide(quiet=True)
         result = pep8s.check_files(['tests/test_models/test_engine/\
-test_db_storage.py'])
+                                   test_db_storage.py'])
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")
 
@@ -86,6 +86,7 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
 
 class TestDBStorageGetMethod(unittest.TestCase):
     """Unittests for get method of db storage module"""
@@ -188,5 +189,6 @@ class TestDBStorageGetMethod(unittest.TestCase):
         self.assertEqual(storage.count(), 4)
         self.assertEqual(storage.count(), len(storage.all()))
 
+
 if __name__ == "__main__":
-	unittest.main()
+    unittest.main()
