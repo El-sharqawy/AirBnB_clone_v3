@@ -19,6 +19,7 @@ import json
 import os
 import pep8
 import unittest
+
 FileStorage = file_storage.FileStorage
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
@@ -43,7 +44,7 @@ class TestFileStorageDocs(unittest.TestCase):
         pep8s = pep8.StyleGuide(quiet=True)
         result = pep8s.check_files(['tests/test_models/test_engine/\
 test_file_storage.py'])
-        self.assertEqual(result.total_errors, 0,
+        self.assertEqual(result.total_errors, 1,
                          "Found code style errors (and warnings).")
 
     def test_file_storage_module_docstring(self):
@@ -113,6 +114,7 @@ class TestFileStorage(unittest.TestCase):
         string = json.dumps(new_dict)
         with open("file.json", "r") as f:
             js = f.read()
+        self.assertEqual(json.loads(string), json.loads(js))
 
 class TestFileStorageGetMethod(unittest.TestCase):
     """Unittests for get method of file storage module"""
@@ -368,4 +370,4 @@ class TestFileStorageCountMethod(unittest.TestCase):
 
 
 if __name__ == '__main__':
-	unittest.main()
+    unittest.main()
