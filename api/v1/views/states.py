@@ -9,7 +9,7 @@ from models.state import State
 
 @app_views.route('/states', methods=['GET'])
 def get():
-    """retrives all states"""
+    """retrives states"""
     states = []
     for state in storage.all(State).values():
         states.append(state.to_dict())
@@ -19,7 +19,7 @@ def get():
 
 @app_views.route('/states/<string:state_id>', methods=['GET'])
 def get_state_id(state_id):
-    """get state By ID"""
+    """get state using id"""
     state = storage.get(State, state_id)
     if state:
         return make_response(jsonify(state.to_dict()), 200)
@@ -28,7 +28,7 @@ def get_state_id(state_id):
 
 @app_views.route('/states/<string:state_id>', methods=['DELETE'])
 def delete_state_id(state_id):
-    """delete a state By ID"""
+    """delete state using id"""
     state = storage.get(State, state_id)
     if state:
         state.delete()
@@ -39,7 +39,7 @@ def delete_state_id(state_id):
 
 @app_views.route('/states', methods=['POST'])
 def post_state():
-    """create a new state"""
+    """create new state"""
     state = request.get_json()
 
     if not state:
@@ -55,15 +55,15 @@ def post_state():
 def put_state(state_id):
     """update a state"""
     state = storage.get(State, state_id)
-    ignored = ['id', 'created_at', 'updated_at']
-    my_data = request.get_json()
+    ignored_list = ['id', 'created_at', 'updated_at']
+    request_data = request.get_json()
 
     if not state:
         abort(404)
-    if not my_data:
+    if not request_data:
         return make_response("Not a JSON", 400)
-    for k, v in my_data.items():
-        if k not in ignored:
-            setattr(state, k, v)
+    for key, value in request_data.items():
+        if key not in ignored_list:
+            setattr(state, key, value)
     state.save()
     return make_response(jsonify(state.to_dict()), 200)
